@@ -1,7 +1,7 @@
 // SortedDriver.cpp
 
-// tom bailey   1445  25 mar 2014
-// Construct sorted sequences and call functions that 
+// Sam Goering 28/ 10/ 2017
+// Construct sorted sequences and call functions that
 //   process the sorted sequences.
 
 
@@ -12,7 +12,6 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
 
 using namespace std;
 
@@ -57,25 +56,64 @@ getWords(size_t numWords, size_t wordLength, string alphabet)
 }
 
 
-// pre:  number is not empty; 
+// pre:  number is not empty;
 //       number is sorted from smallest to largest
 // post: The most isolated entry in number has been returned
-double
-mostIsolated(vector<double> & number)
+double mostIsolated(vector<double> & number)
 {
-	// STUB  STUB  STUB
-	return -123.456;
+	double isolated = 0;
+	double maximum = 0;
+	int m_index = 0;
+
+	for (int j = 0; j < number.size(); ++j){
+		if (j == (number.size() - 1.0)) {
+			isolated = abs(number[j] - number[j - 1.0]);
+		}
+		else if (j == 0) {
+			isolated = abs(number[j] - number[j + 1.0]);
+		}
+		else{
+			double l = abs(number[j] - number[j - 1.0]);
+			double r = abs(number[j] - number[j + 1.0]);
+			if (l > r) {
+				isolated = r;
+			}
+			else {
+				isolated = l;
+			}
+		}
+		if (isolated > maximum){
+			maximum = isolated;
+			m_index = j;
+		}
+	}
+
+	return number[m_index];
 }
 
 
 // pre:  A and B are sorted.
 // post: The number of strings in A that do not occur in B
 //         has been returned.
-int
-unmatched(list<string> & A, list<string> & B)
+int unmatched(list<string> & A, list<string> & B)
 {
-	// STUB  STUB  STUB
-	return -1;
+	int sameCount = 0;
+
+	list<string>::iterator a = A.begin();
+	list<string>::iterator b = B.begin();
+
+	while (a != A.end() && b != B.end())
+	{
+		if (*a == *b){
+			a++;
+			sameCount++;
+		}
+		else if (*a < *b) {a++;}
+		else {b++;}
+	}
+
+	int not_same = A.size() - sameCount;
+	return not_same;
 }
 
 
